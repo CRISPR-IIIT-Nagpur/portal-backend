@@ -5,8 +5,7 @@ const db = require('../db');
 router.put('/', async (req, res) => {
     try {
         const { name, email } = req.body;
-
-        // Validate request
+        
         if (!name || !email) {
             return res.status(400).json({
                 success: false,

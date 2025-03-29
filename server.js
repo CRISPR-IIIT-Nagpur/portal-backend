@@ -10,6 +10,7 @@ const networkAdminEmployeeRouter = require('./api/network/admin/employees.js');
 const networkAdminAssignComplaintRouter = require('./api/network/admin/assignComplaint.js');
 const networkAdminEmployeeComplaintRouter = require('./api/network/employeeComplaint.js');
 const networkResolveComplaintRouter = require('./api/network/resolveComplaint.js');
+const updateUserNameRouter = require('./api/updateUserName.js');
 mysqlcon = require('./db.js');
 
 app.use(cors());
@@ -22,8 +23,9 @@ app.use('/api/network/admin/employees', networkAdminEmployeeRouter);
 app.use('/api/network/admin/assignComplaint', networkAdminAssignComplaintRouter);
 app.use('/api/network/employeeComplaint', networkAdminEmployeeComplaintRouter);
 app.use('/api/network/resolveComplaint', networkResolveComplaintRouter);
+app.use('/api/updateUserName', updateUserNameRouter);
 app.use('/login', require('./api/login.js'));
-app.use('/updateUserName', require('./api/updateUserName.js'));
+
 app.get('/', (req, res) => {
     res.send('Mysql x express running!');
 });
