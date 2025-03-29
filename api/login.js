@@ -50,6 +50,16 @@ router.post('/', async (req, res) => {
 
         console.log('Login successful:', username);
 
+        if (!result[0].name) {
+            return res.status(206).json({
+                success: true,
+                requiresProfile: true,
+                message: 'Login successful, but profile incomplete',
+                userId: result[0].id,
+                role: result[0].role
+            });
+        }
+
         return res.status(200).json({
             success: true,
             message: 'Login successful!',
