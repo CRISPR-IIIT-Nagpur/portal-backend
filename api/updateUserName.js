@@ -4,9 +4,10 @@ const db = require('../db');
 
 router.post('/', async (req, res) => {
     try {
-        const { name, email } = req.body;
-
-        if (!name || !email) {
+        console.log('Received request to update user name:', req.body);
+        const { name, username } = req.body; 
+        console.log('Received request to update name for email:', username);
+        if (!name || !username) {
             return res.status(400).json({
                 success: false,
                 message: 'Name and userId are required'
@@ -26,9 +27,9 @@ router.post('/', async (req, res) => {
             });
         };
 
-        const query = 'UPDATE users SET name = ? WHERE email = ?';
-        const result = await updateName(query, [name, email]);
-
+        const query = 'UPDATE users SET name = ? WHERE username = ?';
+        const result = await updateName(query, [name, username]);
+        console.log('Database result:', result); // Debugging
         if (result.affectedRows === 0) {
             return res.status(404).json({
                 success: false,
