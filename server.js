@@ -23,6 +23,7 @@ app.use('/api/network/admin/assignComplaint', networkAdminAssignComplaintRouter)
 app.use('/api/network/employeeComplaint', networkAdminEmployeeComplaintRouter);
 app.use('/api/network/resolveComplaint', networkResolveComplaintRouter);
 app.use('/login', require('./api/login.js'));
+app.use('/updateUserName', require('./api/updateUserName.js'));
 app.get('/', (req, res) => {
     res.send('Mysql x express running!');
 });
