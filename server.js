@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
+const rateLimit = require('express-rate-limit');
 const port = 7979;
 const networkComplaintRouter = require('./api/network/createComplaint.js');
 const networkComplaintTrackRouter = require('./api/network/trackComplaint.js');
@@ -12,6 +13,20 @@ const networkAdminEmployeeComplaintRouter = require('./api/network/employeeCompl
 const networkResolveComplaintRouter = require('./api/network/resolveComplaint.js');
 const updateUserNameRouter = require('./api/updateUserName.js');
 mysqlcon = require('./db.js');
+
+// Create a rate limiter
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 500, 
+    standardHeaders: true,
+    legacyHeaders: false, 
+    message: {
+        success: false,
+        message: 'Too many requests, please try again later.'
+    }
+});
+
+app.use('/api', limiter);
 
 app.use(cors());
 app.use(express.json());
@@ -29,7 +44,6 @@ app.use('/login', require('./api/login.js'));
 app.get('/', (req, res) => {
     res.send('Mysql x express running!');
 });
-
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
