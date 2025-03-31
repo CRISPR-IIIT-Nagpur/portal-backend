@@ -4,11 +4,11 @@ const db = require('../../db');
 
 router.post('/', (req, res) => {
     try {
-        const { url, purpose, name} = req.body;
+        const { url, purpose, name } = req.body;
         console.log('Received request to unblock website:', url, purpose, name);
 
         const query = `INSERT INTO websites(name, url, purpose) VALUES (?, ?, ?)`;
-        db.query(
+        db.pool.query(
             query,
             [name, url, purpose],
             (err, result) => {

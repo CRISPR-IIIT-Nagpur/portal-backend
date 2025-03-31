@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
         query2 = 'update network_issues set status = "Assigned", assigned_to = ? where id = ?';
         query3 = 'update network_employees set ongoing = ongoing + 1 where id = ?';
 
-        db.query( query1, [employeeId], (err, result) => {
+        db.pool.query(query1, [employeeId], (err, result) => {
             if (err) {
                 console.error('Database error:', err);
                 return res.status(500).json({
@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
 
             const employeeName = result[0].name;
 
-            db.query(query2, [employeeName, complaintId], (err, result) => {
+            db.pool.query(query2, [employeeName, complaintId], (err, result) => {
                 if (err) {
                     console.error('Database error:', err);
                     return res.status(500).json({
@@ -36,7 +36,7 @@ router.post('/', (req, res) => {
                     });
                 }
 
-                db.query(query3, [employeeId], (err, result) => {
+                db.pool.query(query3, [employeeId], (err, result) => {
                     if (err) {
                         console.error('Database error:', err);
                         return res.status(500).json({
@@ -53,10 +53,10 @@ router.post('/', (req, res) => {
                 });
             });
         });
-        
 
 
-       
+
+
     } catch (error) {
         console.error('Server error:', error);
         return res.status(500).json({

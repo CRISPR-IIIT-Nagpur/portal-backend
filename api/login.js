@@ -13,19 +13,16 @@ router.post('/', async (req, res) => {
 
         const query = `SELECT * FROM users WHERE username = ?`;
 
-        // Wrap db.query in a Promise
-        const getUser = (query, values) => {
-            return new Promise((resolve, reject) => {
-                db.query(query, values, (err, result) => {
-                    if (err) {
-                        console.error('Database error:', err);
-                        reject(err);
-                    } else {
-                        console.log('Database result:', result); // Debugging
-                        resolve(result);
-                    }
-                });
-            });
+        // Simplified getUser function using promisePool
+        const getUser = async (query, values) => {
+            try {
+                const [result] = await db.promisePool.query(query, values);
+                console.log('Database result:', result); // Debugging
+                return result;
+            } catch (err) {
+                console.error('Database error:', err);
+                throw err;
+            }
         };
 
         const result = await getUser(query, [username]); // Await database query

@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 
     console.log('Tracking complaints for email:', email);
 
-    db.query(
+    db.pool.query(
         'SELECT id, network_type, issue, description, status, reported_at FROM network_issues WHERE email = ?',
         [email],
         (err, result) => {

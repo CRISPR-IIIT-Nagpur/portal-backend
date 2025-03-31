@@ -4,7 +4,7 @@ const db = require('../../../db');
 
 router.get('/', (req, res) => {
 
-    db.query(
+    db.pool.query(
         'SELECT id, name, post, ongoing,resolved,total FROM network_employees',
         (err, result) => {
             try {

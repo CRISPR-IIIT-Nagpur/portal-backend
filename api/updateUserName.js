@@ -5,7 +5,7 @@ const db = require('../db');
 router.post('/', async (req, res) => {
     try {
         console.log('Received request to update user name:', req.body);
-        const { name, username } = req.body; 
+        const { name, username } = req.body;
         console.log('Received request to update name for email:', username);
         if (!name || !username) {
             return res.status(400).json({
@@ -14,17 +14,14 @@ router.post('/', async (req, res) => {
             });
         }
 
-        const updateName = (query, values) => {
-            return new Promise((resolve, reject) => {
-                db.query(query, values, (err, result) => {
-                    if (err) {
-                        console.error('Database error:', err);
-                        reject(err);
-                    } else {
-                        resolve(result);
-                    }
-                });
-            });
+        const updateName = async (query, values) => {
+            try {
+                const [result] = await db.promisePool.query(query, values);
+                return result;
+            } catch (err) {
+                console.error('Database error:', err);
+                throw err;
+            }
         };
 
         const query = 'UPDATE users SET name = ? WHERE username = ?';

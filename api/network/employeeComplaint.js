@@ -5,7 +5,7 @@ const db = require('../../db');
 router.get('/', (req, res) => {
     const name = req.query.name;
 
-    db.query(
+    db.pool.query(
         'SELECT id, network_type, issue, description, status, reported_at, floor,name, assigned_to, roomNo FROM network_issues WHERE assigned_to = ?',
         [name],
         (err, result) => {

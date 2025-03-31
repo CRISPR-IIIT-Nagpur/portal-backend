@@ -13,7 +13,7 @@ router.post('/', (req, res) => {
             VALUES (?, ?, ?, ?, ?, 'Pending', ?, ?, ?)
         `;
 
-        db.query(
+        db.pool.query(
             query,
             [place || null, floor || null, networkType, issue, description, name, email, roomNo || null],
             (err, result) => {
