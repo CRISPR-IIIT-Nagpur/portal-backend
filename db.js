@@ -3,10 +3,10 @@ require('dotenv').config();
 
 // Create a connection pool instead of a single connection
 const pool = mysql.createPool({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
+    host: 'localhost',
+    user: 'portal',
+    password: 'portal@8008',
+    database: 'portal',
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
