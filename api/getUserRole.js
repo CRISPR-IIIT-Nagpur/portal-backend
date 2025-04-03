@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.post('/', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         console.log('Received request to update user name:', req.body);
         const { name, username } = req.body;
