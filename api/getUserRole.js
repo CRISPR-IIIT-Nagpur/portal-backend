@@ -4,10 +4,10 @@ const db = require('../db');
 
 router.get('/', async (req, res) => {
     try {
-        console.log('Received request to update user name:', req.body);
-        const { name, username } = req.body;
+        console.log('Received request to update user name:', req.query);
+        const {username} = req.query;
         console.log('Received request to update name for email:', username);
-        if (!name || !username) {
+        if (!username) {
             return res.status(400).json({
                 success: false,
                 message: 'Name and userId are required'
