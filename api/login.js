@@ -8,7 +8,6 @@ router.post('/', async (req, res) => {
         const { username, password } = req.body;
         console.log('Received login request for:', username);
 
-        // Hash the password using SHA-256
         const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
         const query = `SELECT * FROM users WHERE username = ?`;

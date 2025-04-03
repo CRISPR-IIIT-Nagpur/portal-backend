@@ -13,38 +13,37 @@ router.post('/', async (req, res) => {
                 message: 'Name and userId are required'
             });
         }
-
-        const updateName = async (query, values) => {
-            try {
-                const [result] = await db.promisePool.query(query, values);
-                return result;
-            } catch (err) {
-                console.error('Database error:', err);
-                throw err;
-            }
-        };
-
-        const query = 'UPDATE users SET name = ? WHERE username = ?';
-        const result = await updateName(query, [name, username]);
-        console.log('Database result:', result); // Debugging
-        if (result.affectedRows === 0) {
+    
+    db.pool.query("SELECT ROLE FROM users WHERE username = ?", [username], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({
+                success: false,
+                message: 'Database error occurred'
+            });
+        }
+        if (result.length === 0) {
             return res.status(404).json({
                 success: false,
                 message: 'User not found'
             });
         }
-
+        const role = result[0].ROLE;
+        console.log('User role:', role);
         return res.status(200).json({
             success: true,
-            message: 'Name updated successfully'
+            role: role
         });
-    } catch (error) {
-        console.error('Server error:', error);
+    });
+    }
+    catch (error) {
+        console.error('Error occurred:', error);
         return res.status(500).json({
             success: false,
-            message: 'Server error occurred'
+            message: 'An error occurred while processing your request'
         });
     }
-});
+}
+);
 
 module.exports = router;
