@@ -5,10 +5,15 @@ const crypto = require('crypto');
 
 router.post('/', async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password } = req.body || {};
         console.log('Received login request for:', username);
 
-        const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+        if (!username || !password) {
+            console.log('Missing username or password in request');
+            return res.status(400).json({ success: false, message: 'username and password required' });
+        }
+
+        const hashedPassword = crypto.createHash('sha256').update(String(password)).digest('hex');
 
         const query = `SELECT * FROM users WHERE username = ?`;
 
@@ -52,7 +57,8 @@ router.post('/', async (req, res) => {
                 requiresProfile: true,
                 message: 'Login successful, but profile incomplete',
                 userId: result[0].id,
-                role: result[0].role
+                role: result[0].role,
+                email: result[0].username
             });
         }
 
@@ -60,7 +66,8 @@ router.post('/', async (req, res) => {
             success: true,
             message: 'Login successful!',
             name: result[0].name,
-            role: result[0].role
+            role: result[0].role,
+            email: result[0].username
         });
 
     } catch (error) {
