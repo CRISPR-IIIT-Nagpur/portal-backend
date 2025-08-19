@@ -13,6 +13,7 @@ const networkAdminEmployeeComplaintRouter = require('./api/network/employeeCompl
 const networkResolveComplaintRouter = require('./api/network/resolveComplaint.js');
 const getUserRoleRouter = require('./api/getUserRole.js');
 const registerRouter = require('./api/register.js');
+const updateNameRouter = require('./api/updateName.js');
 mysqlcon = require('./db.js');
 
 // API call counter
@@ -83,6 +84,7 @@ app.use('/api/network/employeeComplaint', networkAdminEmployeeComplaintRouter);
 app.use('/api/network/resolveComplaint', networkResolveComplaintRouter);
 app.use('/api/getUserRole', getUserRoleRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/updateName', updateNameRouter);
 app.use('/login', require('./api/login.js'));
 
 app.get('/', (req, res) => {
